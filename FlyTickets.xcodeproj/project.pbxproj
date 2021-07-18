@@ -14,6 +14,7 @@
 		6019B1CF268C6CC300D61020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6019B1CD268C6CC300D61020 /* LaunchScreen.storyboard */; };
 		6019B1DA268F1E0800D61020 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6019B1D9268F1E0800D61020 /* PlacesViewController.swift */; };
 		6019B1DF268F35FA00D61020 /* PlaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6019B1DE268F35FA00D61020 /* PlaceType.swift */; };
+		60226C8226A4AFD200405DD5 /* FavoriteViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60226C8126A4AFD200405DD5 /* FavoriteViewCell.swift */; };
 		602ADA8B26A0C3380004C819 /* PlacesBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602ADA8A26A0C3380004C819 /* PlacesBuilder.swift */; };
 		602ADA8F26A0C4F40004C819 /* PlacesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602ADA8E26A0C4F40004C819 /* PlacesPresenter.swift */; };
 		604C02A526A1DCC800B4D38B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604C02A426A1DCC800B4D38B /* NetworkService.swift */; };
@@ -39,6 +40,7 @@
 		6019B1D0268C6CC300D61020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6019B1D9268F1E0800D61020 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		6019B1DE268F35FA00D61020 /* PlaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceType.swift; sourceTree = "<group>"; };
+		60226C8126A4AFD200405DD5 /* FavoriteViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewCell.swift; sourceTree = "<group>"; };
 		602ADA8A26A0C3380004C819 /* PlacesBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesBuilder.swift; sourceTree = "<group>"; };
 		602ADA8E26A0C4F40004C819 /* PlacesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesPresenter.swift; sourceTree = "<group>"; };
 		604C02A426A1DCC800B4D38B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -115,6 +117,14 @@
 				6019B1CD268C6CC300D61020 /* LaunchScreen.storyboard */,
 			);
 			path = Supporting;
+			sourceTree = "<group>";
+		};
+		60226C8026A4AFA400405DD5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				60226C8126A4AFD200405DD5 /* FavoriteViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		602ADA7A269CA2EE0004C819 /* Entities */ = {
@@ -219,6 +229,7 @@
 		604C02A326A1DC9600B4D38B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				60226C8026A4AFA400405DD5 /* Cell */,
 				60FC801126987F8C00E03E83 /* FavoritesVC.swift */,
 			);
 			path = View;
@@ -369,6 +380,7 @@
 				6019B1C3268C6CC200D61020 /* AppDelegate.swift in Sources */,
 				60FC800F26987D7F00E03E83 /* MapVC.swift in Sources */,
 				6019B1C5268C6CC200D61020 /* SceneDelegate.swift in Sources */,
+				60226C8226A4AFD200405DD5 /* FavoriteViewCell.swift in Sources */,
 				60FC80CD269C94BF00E03E83 /* FindTicketsBuilder.swift in Sources */,
 				602ADA8F26A0C4F40004C819 /* PlacesPresenter.swift in Sources */,
 				6019B1DF268F35FA00D61020 /* PlaceType.swift in Sources */,
