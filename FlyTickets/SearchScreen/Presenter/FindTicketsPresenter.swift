@@ -13,35 +13,46 @@ protocol FindTicketViewProtocol: class {
 }
 //output
 protocol FindTicketsPresenterProtocol: class {
-	init(view: FindTicketViewProtocol, title: String)
-	func findTicket()
-	func openPlaceView()
+	init(view: (FindTicketViewProtocol & FindTicketsVC), title: String)
+	func viewDidTapFieldWithType(placeType: PlaceType)
+	func viewDidTapSearch()
 	func requestData()
+	
 }
 
 class FindTicketsPresenter: FindTicketsPresenterProtocol {
 	
 	
-	let title: String
-	weak var view: FindTicketViewProtocol?
+	// MARK: - FindTicketsPresenterProtocol
 	
-	required init(view: FindTicketViewProtocol, title: String) {
+	let title: String
+	weak var view: (FindTicketViewProtocol & FindTicketsVC)?
+	
+	required init(view: (FindTicketViewProtocol & FindTicketsVC), title: String) {
 		self.view = view
 		self.title = title
 	}
 	
-	public func findTicket() {
+	public func viewDidTapSearch() {
 		let title = self.title
 		self.view?.setTitleForField(title: title)
 	}
 	
-	func openPlaceView() {
-		
-		
+	func viewDidTapFieldWithType(placeType: PlaceType) {
+		openPlaceView(placeType: placeType)
 	}
+
+	
 	
 	func requestData() {
 		view?.showActivityIndicator(show: true)
 	}
+	
+	// MARK: - Private Methods
+	private func openPlaceView(placeType: PlaceType) {
+		let placeVC = PlacesBuilder.createPlacesScreen(with: placeType)
+		view?.navigationController?.pushViewController(placeVC, animated: true)
+	}
+	
 	
 }

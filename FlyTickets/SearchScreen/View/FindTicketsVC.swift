@@ -14,7 +14,7 @@ class FindTicketsVC: UIViewController {
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = #colorLiteral(red: 0.5561650584, green: 0.8011374052, blue: 0.9346739794, alpha: 1)
+		view.backgroundColor = UIColor.backgroundLightBlue
 		configureNavigationItem()
 		setupLayout()
 	}
@@ -101,10 +101,8 @@ class FindTicketsVC: UIViewController {
 	}
 
 	@objc private func showListOfPlaces(_ textField: UITextField) {
-		
-		//тут нужно вызвать билдер следующего экрана через презентер?
-//		self.presenter.findTicket()
-		navigationController?.pushViewController(PlacesViewController(), animated: true)
+		let placeType = textField.isEqual(UITextField()) ? PlaceType.PlaceTypeDeparture : PlaceType.PlaceTypeArrival
+		presenter.viewDidTapFieldWithType(placeType: placeType)
 	}
 	
 }
