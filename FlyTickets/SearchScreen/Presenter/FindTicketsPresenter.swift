@@ -9,15 +9,18 @@ import Foundation
 //input
 protocol FindTicketViewProtocol: class {
 	func setTitleForField(title: String)
+	func showActivityIndicator(show: Bool)
 }
 //output
 protocol FindTicketsPresenterProtocol: class {
 	init(view: FindTicketViewProtocol, title: String)
 	func findTicket()
 	func openPlaceView()
+	func requestData()
 }
 
 class FindTicketsPresenter: FindTicketsPresenterProtocol {
+	
 	
 	let title: String
 	weak var view: FindTicketViewProtocol?
@@ -35,6 +38,10 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 	func openPlaceView() {
 		
 		
+	}
+	
+	func requestData() {
+		<#code#>
 	}
 	
 }
