@@ -41,7 +41,7 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 	}
 	
 	func requestData() {
-		<#code#>
+		view?.showActivityIndicator(show: true)
 	}
 	
 }

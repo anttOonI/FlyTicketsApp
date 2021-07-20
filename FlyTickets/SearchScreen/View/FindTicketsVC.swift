@@ -28,7 +28,7 @@ class FindTicketsVC: UIViewController {
 	private var fromTextField = UITextField()
 	private var toTextField = UITextField()
 	private var goFindButton = UIButton()
-	
+	private var activityIndicator = UIActivityIndicatorView()
 	
 	
 	// MARK: - Private Methods
@@ -75,6 +75,11 @@ class FindTicketsVC: UIViewController {
 		
 		view.addSubview(goFindButton)
 		
+		activityIndicator.style = .medium
+		activityIndicator.center = fromTextField.center
+		
+		view.addSubview(activityIndicator)
+		
 		NSLayoutConstraint.activate([
 			
 			fromTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
@@ -105,6 +110,10 @@ class FindTicketsVC: UIViewController {
 }
 
 extension FindTicketsVC: FindTicketViewProtocol {
+	func showActivityIndicator(show: Bool) {
+		show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+	}
+	
 	func setTitleForField(title: String) {
 		fromTextField.text = title
 	}
