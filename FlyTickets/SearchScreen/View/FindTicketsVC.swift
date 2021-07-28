@@ -9,14 +9,14 @@ import UIKit
 
 class FindTicketsVC: UIViewController {
 	
-	
-	
 	// MARK: - Lifecycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = UIColor.backgroundLightBlue
 		configureNavigationItem()
 		setupLayout()
+		
+		presenter.requestData()
 	}
 	
 	// MARK: - Public Properties
@@ -101,8 +101,8 @@ class FindTicketsVC: UIViewController {
 	}
 
 	@objc private func showListOfPlaces(_ textField: UITextField) {
-		let placeType = textField.isEqual(UITextField()) ? PlaceType.PlaceTypeDeparture : PlaceType.PlaceTypeArrival
-		presenter.viewDidTapFieldWithType(placeType: placeType)
+		let placeType = textField.isEqual(fromTextField) ? PlaceType.PlaceTypeDeparture : PlaceType.PlaceTypeArrival
+		presenter.viewDidTapFieldWithType(placeType: placeType, presenter: presenter)
 	}
 	
 }
@@ -112,8 +112,14 @@ extension FindTicketsVC: FindTicketViewProtocol {
 		show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
 	}
 	
-	func setTitleForField(title: String) {
-		fromTextField.text = title
+	func setTitleForField(title: String, withType placeType: PlaceType) {
+		switch placeType {
+		case .PlaceTypeDeparture:
+			fromTextField.text = title
+		case .PlaceTypeArrival:
+			toTextField.text = title
+		}
+		
 	}
 	
 }

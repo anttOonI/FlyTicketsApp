@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	
 	func createMapVC() -> UIViewController {
 		let mapVC = MapVC()
-		mapVC.tabBarItem = UITabBarItem(title: "Карта цен", image: UIImage(named: "map"), tag: 1)
+		mapVC.tabBarItem = UITabBarItem(title: "Price map", image: UIImage(named: "map"), tag: 1)
 		
 		return mapVC
 	}
