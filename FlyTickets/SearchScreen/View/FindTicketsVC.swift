@@ -9,16 +9,6 @@ import UIKit
 
 class FindTicketsVC: UIViewController {
 	
-	// MARK: - Lifecycle
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		view.backgroundColor = UIColor.backgroundLightBlue
-		configureNavigationItem()
-		setupLayout()
-		
-		presenter.requestData()
-	}
-	
 	// MARK: - Public Properties
 	
 	var presenter: FindTicketsPresenterProtocol!
@@ -30,16 +20,26 @@ class FindTicketsVC: UIViewController {
 	private var goFindButton = UIButton()
 	private var activityIndicator = UIActivityIndicatorView()
 	
+	// MARK: - Lifecycle
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		view.backgroundColor = UIColor.backgroundLightBlue
+		configureNavigationBar()
+		setupLayout()
+		
+		presenter.requestData()
+	}
+	
 	
 	// MARK: - Private Methods
 	
-	private func configureNavigationItem() {
+	private func configureNavigationBar() {
 		navigationController?.navigationBar.prefersLargeTitles = true
 	}
-	
-	private func configureNavigationBar() {
-		navigationController?.navigationBar.barStyle = .black
-	}
+//
+//	private func configureNavigationBar() {
+//		navigationController?.navigationBar.barStyle = .black
+//	}
 	
 	private func setupLayout() {
 		
@@ -108,6 +108,7 @@ class FindTicketsVC: UIViewController {
 }
 
 extension FindTicketsVC: FindTicketViewProtocol {
+	
 	func showActivityIndicator(show: Bool) {
 		show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
 	}

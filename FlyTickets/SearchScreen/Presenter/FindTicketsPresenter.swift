@@ -22,7 +22,6 @@ protocol FindTicketsPresenterProtocol: class {
 
 class FindTicketsPresenter: FindTicketsPresenterProtocol {
 	
-	
 	// MARK: - FindTicketsPresenterProtocol
 	
 	let title: String

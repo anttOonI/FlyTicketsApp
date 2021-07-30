@@ -13,7 +13,7 @@ protocol Builder: class {
 
 class PlacesBuilder: Builder {
 	static func createPlacesScreen(withPlaceType placeType: PlaceType, with findPresenter: FindTicketsPresenterProtocol) -> UIViewController {
-		let view = PlacesViewController(placeType: placeType)
+		let view = PlacesVC(placeType: placeType)
 		let presenter = PlacesPresenter(view: view, findPresenter: findPresenter)
 		view.presenter = presenter
 		

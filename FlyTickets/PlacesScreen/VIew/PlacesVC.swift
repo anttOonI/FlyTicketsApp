@@ -1,5 +1,5 @@
 //
-//  PlacesViewController.swift
+//  PlacesVC.swift
 //  FlyTickets
 //
 //  Created by AntonSobolev on 02.07.2021.
@@ -7,23 +7,36 @@
 
 import UIKit
 
-class PlacesViewController: UIViewController {
+class PlacesVC: UIViewController {
 	
-	//testing model - will replace for model from JSON
-	var cities = Array(repeating: "Cities", count: 30)
-	var citiesCode = Array(repeating: "CIT", count: 30)
-	var airports = Array(repeating: "Airports", count: 30)
-	var airCode = Array(repeating: "AIR", count: 30)
-//
+	// MARK: - Public Properties
+	
+	var presenter: PlacesViewPresenterProtocol?
+	let placeType: PlaceType
+	var currentSource = [Codable]()
+	
+	
+	// MARK: - Private Properties
+	
+	private var tableView = UITableView()
+	private var segmentedControl = UISegmentedControl()
+	private var searchController = UISearchController()
+	private var filteredSourceArray = [Codable]()
+	private var isFiltering: Bool {
+		return searchController.isActive && (filteredSourceArray.count > 0)
+	}
+	
 	// MARK: - Lifecycle
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
+		self.navigationController?.navigationBar.prefersLargeTitles = true
 		self.navigationItem.largeTitleDisplayMode = .always
 		
 		configureTableView()
 		configureSegmentControl()
+		configureSearchController()
 		
 		if placeType == PlaceType.PlaceTypeDeparture {
 			self.title = "From..."
@@ -43,18 +56,6 @@ class PlacesViewController: UIViewController {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
-	// MARK: - Public Properties
-	
-	var presenter: PlacesViewPresenterProtocol?
-	let placeType: PlaceType
-	var currentSource = [Codable]()
-	
-	// MARK: - Private Properties
-	
-	private var tableView = UITableView()
-	private var segmentedControl = UISegmentedControl()
-	private var filteredSourceArray = [Any]()
 	
 	// MARK: - Private Methods
 	
@@ -87,7 +88,21 @@ class PlacesViewController: UIViewController {
 		segmentedControl.frame = CGRect(x: 0, y: 0, width: 200, height: 30)
 		segmentedControl.addTarget(self, action: #selector(placesDidChange(_:)), for: .valueChanged)
 		self.navigationItem.titleView = segmentedControl
-
+	}
+	
+	private func configureSearchController() {
+		searchController.searchResultsUpdater = self
+		searchController.delegate = self
+		searchController.searchBar.delegate = self
+		searchController.searchBar.autocapitalizationType = .none
+		searchController.searchBar.searchTextField.placeholder = "Search place"
+		searchController.obscuresBackgroundDuringPresentation = false
+		searchController.hidesNavigationBarDuringPresentation = true
+		
+		searchController.searchBar.returnKeyType = .done
+		
+		navigationItem.searchController = searchController
+		navigationItem.hidesSearchBarWhenScrolling = false
 	}
 	
 	private func changeSource() {
@@ -98,20 +113,17 @@ class PlacesViewController: UIViewController {
 	
 	@objc func placesDidChange(_ segmentedControl: UISegmentedControl) {
 		changeSource()
-		switch segmentedControl.selectedSegmentIndex {
-		case 0:
-			print("cities choosed")
-		case 1:
-			print("airports choosed")
-		default:
-			print("default")
-		}
 	}
 }
 
-extension PlacesViewController: UITableViewDelegate, UITableViewDataSource {
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
+extension PlacesVC: UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		if isFiltering {
+			return filteredSourceArray.count
+		}
 		return currentSource.count
 	}
 	
@@ -119,11 +131,13 @@ extension PlacesViewController: UITableViewDelegate, UITableViewDataSource {
 		let cell = tableView.dequeueReusableCell(withIdentifier: PlacesViewCell.identifier) as! PlacesViewCell
 		
 		if segmentedControl.selectedSegmentIndex == 0 {
-			guard let city: City = currentSource[indexPath.row] as? City else { return cell }
+			let city: City = self.isFiltering ? filteredSourceArray[indexPath.row] as! City : currentSource[indexPath.row] as! City
+//			guard let city: City = currentSource[indexPath.row] as? City else { return cell }
 			cell.nameLabel.text = city.name
 			cell.codeLabel.text = city.code
 		} else if segmentedControl.selectedSegmentIndex == 1 {
-			guard let airport: Airport = currentSource[indexPath.row] as? Airport else { return cell }
+			let airport: Airport = self.isFiltering ? filteredSourceArray[indexPath.row] as! Airport : currentSource[indexPath.row] as! Airport
+//			guard let airport: Airport = currentSource[indexPath.row] as? Airport else { return cell }
 			cell.nameLabel.text = airport.name
 			cell.codeLabel.text = airport.code
 		}
@@ -132,15 +146,51 @@ extension PlacesViewController: UITableViewDelegate, UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		presenter?.viewDidSelectPlace(withPlace: currentSource[indexPath.row], withType: placeType)
+		if isFiltering {
+			presenter?.viewDidSelectPlace(withPlace: filteredSourceArray[indexPath.row], withType: placeType)
+			searchController.isActive = false
+		} else {
+			presenter?.viewDidSelectPlace(withPlace: currentSource[indexPath.row], withType: placeType)
+		}
 	}
 }
 
-extension PlacesViewController: PlacesViewProtocol {
+// MARK: - PlacesViewProtocol
+
+extension PlacesVC: PlacesViewProtocol {
 	
 	func reloadTable() {
 		self.tableView.reloadData()
 	}
+}
+
+// MARK: - UISearchControllerDelegate
+
+extension PlacesVC: UISearchControllerDelegate {
 	
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension PlacesVC: UISearchResultsUpdating, UISearchBarDelegate {
 	
+	func updateSearchResults(for searchController: UISearchController) {
+		guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+		
+		filteredSourceArray = currentSource.filter() {
+			if let sourceType = $0 as? City {
+				
+				return sourceType.name.lowercased().contains(filter.lowercased())
+			} else {
+				return false
+			}
+		}
+		print(filteredSourceArray.count)
+		reloadTable()
+	}
+	
+	func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+		filteredSourceArray = currentSource
+		reloadTable()
+	}
 }
