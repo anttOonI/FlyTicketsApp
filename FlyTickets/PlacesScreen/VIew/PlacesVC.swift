@@ -179,13 +179,13 @@ extension PlacesVC: UISearchResultsUpdating, UISearchBarDelegate {
 		
 		filteredSourceArray = currentSource.filter() {
 			if let sourceType = $0 as? City {
-				
+				return sourceType.name.lowercased().contains(filter.lowercased())
+			} else if let sourceType = $0 as? Airport {
 				return sourceType.name.lowercased().contains(filter.lowercased())
 			} else {
 				return false
 			}
 		}
-		print(filteredSourceArray.count)
 		reloadTable()
 	}
 	
