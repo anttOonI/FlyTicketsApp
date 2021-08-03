@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol Builder: class {
+protocol PlacesBuilderProtocol: class {
 	static func createPlacesScreen(withPlaceType placeType: PlaceType, with mainPresenter: FindTicketsPresenterProtocol) -> UIViewController
 }
 
-class PlacesBuilder: Builder {
+class PlacesBuilder: PlacesBuilderProtocol {
 	static func createPlacesScreen(withPlaceType placeType: PlaceType, with findPresenter: FindTicketsPresenterProtocol) -> UIViewController {
 		let view = PlacesVC(placeType: placeType)
 		let presenter = PlacesPresenter(view: view, findPresenter: findPresenter)

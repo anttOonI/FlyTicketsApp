@@ -36,10 +36,6 @@ class FindTicketsVC: UIViewController {
 	private func configureNavigationBar() {
 		navigationController?.navigationBar.prefersLargeTitles = true
 	}
-//
-//	private func configureNavigationBar() {
-//		navigationController?.navigationBar.barStyle = .black
-//	}
 	
 	private func setupLayout() {
 		
@@ -75,9 +71,10 @@ class FindTicketsVC: UIViewController {
 		
 		view.addSubview(goFindButton)
 		
-		activityIndicator.style = .medium
-		activityIndicator.center = fromTextField.center
-		
+		activityIndicator.style = .large
+		activityIndicator.color = .red
+//		activityIndicator.center = fromTextField.bounds.origin
+		activityIndicator.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(activityIndicator)
 		
 		NSLayoutConstraint.activate([
@@ -95,7 +92,10 @@ class FindTicketsVC: UIViewController {
 			goFindButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
 			goFindButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
 			goFindButton.topAnchor.constraint(equalTo: toTextField.bottomAnchor, constant: 30),
-			goFindButton.heightAnchor.constraint(equalToConstant: 50)
+			goFindButton.heightAnchor.constraint(equalToConstant: 50),
+			// TODO: поправить положение индикатора - чтобы был слева
+			activityIndicator.centerYAnchor.constraint(equalTo: fromTextField.centerYAnchor),
+			activityIndicator.centerXAnchor.constraint(equalTo: fromTextField.centerXAnchor)
 		
 		])
 	}

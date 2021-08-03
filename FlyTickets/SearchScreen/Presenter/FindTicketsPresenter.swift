@@ -44,6 +44,13 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 	func requestData() {
 		view?.showActivityIndicator(show: true)
 		DataService.shared.loadData()
+		APIService.shared.getCityForCurrentIP { (city) in
+			DispatchQueue.main.async {
+				
+				self.view?.setTitleForField(title: city.name, withType: PlaceType.PlaceTypeDeparture)
+				self.view?.showActivityIndicator(show: false)
+			}
+		}
 	}
 	func setPlace(withPlace place: Codable, withType placeType: PlaceType) {
 		var title = ""

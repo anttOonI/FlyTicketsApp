@@ -29,14 +29,6 @@ final class DataService {
 	private init() {
 	}
 	
-	// MARK: - Public Methods
-	
-	func loadData() {
-		getSource(forResource: cityResource, ofType: typeOfFile, withType: .DataSourceTypeCity)
-		getSource(forResource: countryResource, ofType: typeOfFile, withType: .DataSourceTypeCountry)
-		getSource(forResource: airportResource, ofType: typeOfFile, withType: .DataSourceTypeAirport)
-	}
-	
 	// MARK: - Private Methods
 	
 	private func getSource(forResource resource: String, ofType type: String, withType sourceType: DataSourceType) {
@@ -57,5 +49,30 @@ final class DataService {
 			print("error \(error)")
 		}
 	}
+	
+	// MARK: - Public Methods
+	
+	func loadData() {
+		getSource(forResource: cityResource, ofType: typeOfFile, withType: .DataSourceTypeCity)
+		getSource(forResource: countryResource, ofType: typeOfFile, withType: .DataSourceTypeCountry)
+		getSource(forResource: airportResource, ofType: typeOfFile, withType: .DataSourceTypeAirport)
+	}
+	
+	func getCityForIATA(iata: String?) -> City? {
+		if iata != nil {
+			for city in cities {
+				if city.code == iata {
+					return city
+				} else {
+					return nil
+				}
+			}
+		} else {
+			return nil
+		}
+		return nil
+	}
+	
+	
 	
 }

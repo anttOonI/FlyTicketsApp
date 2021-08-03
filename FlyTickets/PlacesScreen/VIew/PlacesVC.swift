@@ -10,7 +10,7 @@ import UIKit
 class PlacesVC: UIViewController {
 	
 	// MARK: - Public Properties
-	
+	var str = ""
 	var presenter: PlacesViewPresenterProtocol?
 	let placeType: PlaceType
 	var currentSource = [Codable]()
@@ -164,15 +164,9 @@ extension PlacesVC: PlacesViewProtocol {
 	}
 }
 
-// MARK: - UISearchControllerDelegate
-
-extension PlacesVC: UISearchControllerDelegate {
-	
-}
-
 // MARK: - UISearchResultsUpdating
 
-extension PlacesVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension PlacesVC: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
 	
 	func updateSearchResults(for searchController: UISearchController) {
 		guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
