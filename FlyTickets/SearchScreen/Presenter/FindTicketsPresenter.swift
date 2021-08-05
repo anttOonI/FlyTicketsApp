@@ -15,12 +15,15 @@ protocol FindTicketViewProtocol: class {
 protocol FindTicketsPresenterProtocol: class {
 	init(view: (FindTicketViewProtocol & FindTicketsVC), title: String)
 	func viewDidTapFieldWithType(placeType: PlaceType, presenter: FindTicketsPresenterProtocol)
-	func viewDidTapSearch()
+	func viewDidTapSearchButton()
 	func requestData()
 	func setPlace(withPlace place: Codable, withType placeType: PlaceType)
 }
 
 class FindTicketsPresenter: FindTicketsPresenterProtocol {
+	
+	// MARK: - Private Properties
+	private var searchRequest = SearchRequest()
 	
 	// MARK: - FindTicketsPresenterProtocol
 	
@@ -32,9 +35,8 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 		self.title = title
 	}
 	
-	public func viewDidTapSearch() {
-//		let title = self.title
-//		self.view?.setTitleForField(title: title)
+	public func viewDidTapSearchButton() {
+		openTicketView()
 	}
 	
 	func viewDidTapFieldWithType(placeType: PlaceType, presenter: FindTicketsPresenterProtocol) {
@@ -46,10 +48,10 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 		DataService.shared.loadData()
 		APIService.shared.getCityForCurrentIP { (city) in
 			DispatchQueue.main.async {
-				
 				self.view?.setTitleForField(title: city.name, withType: PlaceType.PlaceTypeDeparture)
 				self.view?.showActivityIndicator(show: false)
 			}
+			self.searchRequest.origin = city.iata
 		}
 	}
 	func setPlace(withPlace place: Codable, withType placeType: PlaceType) {
@@ -65,6 +67,11 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 			title = airport.name
 			iata = airport.cityCode
 		}
+		if placeType == PlaceType.PlaceTypeDeparture {
+			searchRequest.origin = iata
+		} else {
+			searchRequest.destination = iata
+		}
 		view?.setTitleForField(title: title, withType: placeType)
 		view?.navigationController?.popViewController(animated: true)
 	}
@@ -76,5 +83,13 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 		view?.navigationController?.pushViewController(placeVC, animated: true)
 	}
 	
-	
+	private func openTicketView() {
+		APIService.shared.getTicketsWithRequest(request: searchRequest) { (result) in
+			result.data.keys.forEach { key in
+				result.data[key]?.values.forEach({ value in
+					print(value)
+				})
+			}
+		}
+	}
 }

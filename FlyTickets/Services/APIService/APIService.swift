@@ -12,7 +12,7 @@ final class APIService {
 	// MARK: - Public Properties
 	
 	static let shared = APIService()
-
+	
 	// MARK: - Initializers
 	private init() {
 	}
@@ -29,15 +29,10 @@ final class APIService {
 				return
 			}
 			
-			guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-//				completion(.failure(error))
-				return
-			}
+			guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
 			
-			guard let data = data else {
-//				completion(.failure(error))
-				return
-			}
+			guard let data = data else { return }
+			
 			print(data)
 			do {
 				let decoder = JSONDecoder()
@@ -74,6 +69,24 @@ final class APIService {
 				case .failure(let error):
 					print(error)
 				}
+			}
+		}
+	}
+	//	вот такой урл https://api.travelpayouts.com/v1/prices/cheap?origin=LED&destination=DME&token=9cfb220fbf225dc196d63ea213925fc8
+	func getTicketsWithRequest(request: SearchRequest, completion: @escaping (TicketsResponse) -> ()) {
+		var urlComponents = URLComponents(string: APIConstants.apiUrlForCheap)
+		urlComponents?.queryItems = [
+			URLQueryItem(name: "origin", value: request.origin),
+			URLQueryItem(name: "destination", value: request.destination),
+			URLQueryItem(name: "token", value: APIConstants.apiToken),
+		]
+		let url = urlComponents?.url?.absoluteString
+		self.executeRequestForURL(urlString: url!) { (result: Result<TicketsResponse, Error>) in
+			switch result {
+			case .success(let ticket):
+				print(ticket)
+			case .failure(let error):
+				print(error)
 			}
 		}
 	}

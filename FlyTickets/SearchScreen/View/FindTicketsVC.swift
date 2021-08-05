@@ -12,7 +12,7 @@ class FindTicketsVC: UIViewController {
 	// MARK: - Public Properties
 	
 	var presenter: FindTicketsPresenterProtocol!
-	
+	var searchRequest: SearchRequest!
 	// MARK: - Private Properties
 	
 	private var fromTextField = UITextField()
@@ -69,6 +69,8 @@ class FindTicketsVC: UIViewController {
 		goFindButton.backgroundColor = .darkGray
 		goFindButton.layer.cornerRadius = 5
 		
+		goFindButton.addTarget(self, action: #selector(searchButtonDidTapped), for: .touchDown)
+		
 		view.addSubview(goFindButton)
 		
 		activityIndicator.style = .large
@@ -103,6 +105,10 @@ class FindTicketsVC: UIViewController {
 	@objc private func showListOfPlaces(_ textField: UITextField) {
 		let placeType = textField.isEqual(fromTextField) ? PlaceType.PlaceTypeDeparture : PlaceType.PlaceTypeArrival
 		presenter.viewDidTapFieldWithType(placeType: placeType, presenter: presenter)
+	}
+	
+	@objc private func searchButtonDidTapped() {
+		presenter.viewDidTapSearchButton()
 	}
 	
 }
