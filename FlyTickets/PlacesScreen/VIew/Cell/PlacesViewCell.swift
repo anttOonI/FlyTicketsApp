@@ -44,7 +44,7 @@ class PlacesViewCell: UITableViewCell {
 
 extension PlacesViewCell {
 	
-	func configureLayout() {
+	private func configureLayout() {
 		contentView.backgroundColor = .white
 		
 		nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -54,12 +54,12 @@ extension PlacesViewCell {
 		self.contentView.addSubview(codeLabel)
 		
 		NSLayoutConstraint.activate([
-			nameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-			nameLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -30),
-			nameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
+			nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+			nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+			nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
 			
-			codeLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-			codeLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -30),
+			codeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+			codeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
 			codeLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
 			codeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
 		])

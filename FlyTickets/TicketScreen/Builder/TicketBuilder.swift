@@ -8,13 +8,15 @@
 import UIKit
 
 protocol TicketBuilderProtocol: class {
-	static func createTicketScreen() -> UIViewController
+	static func createTicketScreen(with tickets: [Ticket]) -> UIViewController
 }
 
 class TicketBuilder: TicketBuilderProtocol {
-	static func createTicketScreen() -> UIViewController {
-		
-		return UIViewController()
+	static func createTicketScreen(with tickets: [Ticket]) -> UIViewController {
+		let view = TicketVC()
+		let presenter = TicketsPresenter(view: view, tickets: tickets)
+		view.presenter = presenter
+		return view
 	}
 	
 	

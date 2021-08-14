@@ -17,18 +17,23 @@ struct Ticket: Codable {
 	
 	let price: Int
 	let airline: String
-	let departure: String
-	let expires: String
 	let flightNumber: Int
+	let departureDate: String
 	let returnDate: String
+	let departDate: String
+	
+	var from: String!
+	var to: String!
 	
 	enum CodingKeys: String, CodingKey {
 		case price
 		case airline
-		case departure = "departure_at"
-		case expires = "expires_at"
 		case flightNumber = "flight_number"
+		case departureDate = "departure_at"
 		case returnDate = "return_at"
-
+		case departDate = "expires_at"
+		
+		case from
+		case to
 	}
 }

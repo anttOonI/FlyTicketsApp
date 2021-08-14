@@ -10,7 +10,7 @@ import UIKit
 class PlacesVC: UIViewController {
 	
 	// MARK: - Public Properties
-	var str = ""
+	
 	var presenter: PlacesViewPresenterProtocol?
 	let placeType: PlaceType
 	var currentSource = [Codable]()
@@ -48,6 +48,7 @@ class PlacesVC: UIViewController {
 	}
 	
 	// MARK: - Initializers
+	
 	init(placeType: PlaceType) {
 		self.placeType = placeType
 		super.init(nibName: nil, bundle: nil)
@@ -69,8 +70,8 @@ class PlacesVC: UIViewController {
 		NSLayoutConstraint.activate([
 			tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-			tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+			tableView.topAnchor.constraint(equalTo: view.topAnchor),
+			tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 		])
 	}
 
@@ -132,12 +133,10 @@ extension PlacesVC: UITableViewDelegate, UITableViewDataSource {
 		
 		if segmentedControl.selectedSegmentIndex == 0 {
 			let city: City = self.isFiltering ? filteredSourceArray[indexPath.row] as! City : currentSource[indexPath.row] as! City
-//			guard let city: City = currentSource[indexPath.row] as? City else { return cell }
 			cell.nameLabel.text = city.name
 			cell.codeLabel.text = city.code
 		} else if segmentedControl.selectedSegmentIndex == 1 {
 			let airport: Airport = self.isFiltering ? filteredSourceArray[indexPath.row] as! Airport : currentSource[indexPath.row] as! Airport
-//			guard let airport: Airport = currentSource[indexPath.row] as? Airport else { return cell }
 			cell.nameLabel.text = airport.name
 			cell.codeLabel.text = airport.code
 		}

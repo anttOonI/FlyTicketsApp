@@ -19,6 +19,10 @@
 		602ADA8F26A0C4F40004C819 /* PlacesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602ADA8E26A0C4F40004C819 /* PlacesPresenter.swift */; };
 		604C02A526A1DCC800B4D38B /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604C02A426A1DCC800B4D38B /* APIService.swift */; };
 		604C02AA26A1DD0100B4D38B /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604C02A926A1DD0100B4D38B /* LocationService.swift */; };
+		605391F326C2A67500227CE3 /* TicketViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605391F226C2A67500227CE3 /* TicketViewCell.swift */; };
+		605391F726C549E900227CE3 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605391F626C549E900227CE3 /* UIHelper.swift */; };
+		605391FE26C57BF900227CE3 /* + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605391FD26C57BF900227CE3 /* + String.swift */; };
+		6053920426C6D37E00227CE3 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6053920326C6D37E00227CE3 /* ImageService.swift */; };
 		605D8D3126B18FDB00C4F4F7 /* MapBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D8D3026B18FDB00C4F4F7 /* MapBuilder.swift */; };
 		605D8D3726B18FEC00C4F4F7 /* MapPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D8D3626B18FEC00C4F4F7 /* MapPresenter.swift */; };
 		605D8D4D26B569C700C4F4F7 /* TicketBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D8D4C26B569C700C4F4F7 /* TicketBuilder.swift */; };
@@ -63,6 +67,10 @@
 		602ADA8E26A0C4F40004C819 /* PlacesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesPresenter.swift; sourceTree = "<group>"; };
 		604C02A426A1DCC800B4D38B /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		604C02A926A1DD0100B4D38B /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		605391F226C2A67500227CE3 /* TicketViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketViewCell.swift; sourceTree = "<group>"; };
+		605391F626C549E900227CE3 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		605391FD26C57BF900227CE3 /* + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "+ String.swift"; sourceTree = "<group>"; };
+		6053920326C6D37E00227CE3 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		605D8D3026B18FDB00C4F4F7 /* MapBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBuilder.swift; sourceTree = "<group>"; };
 		605D8D3626B18FEC00C4F4F7 /* MapPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresenter.swift; sourceTree = "<group>"; };
 		605D8D4C26B569C700C4F4F7 /* TicketBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketBuilder.swift; sourceTree = "<group>"; };
@@ -193,6 +201,7 @@
 		602ADA8026A0B5AF0004C819 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6053920226C6D37200227CE3 /* ImageService */,
 				602ADA8226A0B5BF0004C819 /* APIService */,
 				602ADA8126A0B5B70004C819 /* LocationService */,
 				60DDC94F26B05EDA00BDCF1B /* DataService */,
@@ -286,6 +295,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		605391F126C2A65A00227CE3 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				605391F226C2A67500227CE3 /* TicketViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		6053920226C6D37200227CE3 /* ImageService */ = {
+			isa = PBXGroup;
+			children = (
+				6053920326C6D37E00227CE3 /* ImageService.swift */,
+			);
+			path = ImageService;
+			sourceTree = "<group>";
+		};
 		605D8D3326B18FDF00C4F4F7 /* Builder */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +340,7 @@
 		605D8D5626B569E000C4F4F7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				605391F126C2A65A00227CE3 /* Cell */,
 				605D8D5326B569DC00C4F4F7 /* TicketVC.swift */,
 			);
 			path = View;
@@ -340,6 +366,7 @@
 			isa = PBXGroup;
 			children = (
 				605D8D6126B5922B00C4F4F7 /* FTError.swift */,
+				605391F626C549E900227CE3 /* UIHelper.swift */,
 			);
 			path = Utilites;
 			sourceTree = "<group>";
@@ -397,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				60FC80162698801A00E03E83 /* + UIColor .swift */,
+				605391FD26C57BF900227CE3 /* + String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -531,8 +559,10 @@
 				6019B1DA268F1E0800D61020 /* PlacesVC.swift in Sources */,
 				6019B1C7268C6CC200D61020 /* FindTicketsVC.swift in Sources */,
 				60A787E026B9BC4600879707 /* IPAdress.swift in Sources */,
+				6053920426C6D37E00227CE3 /* ImageService.swift in Sources */,
 				60FC80B6269C737800E03E83 /* FindTicketsPresenter.swift in Sources */,
 				60DDC94D26B05ED500BDCF1B /* DataService.swift in Sources */,
+				605391F326C2A67500227CE3 /* TicketViewCell.swift in Sources */,
 				60FC80172698801A00E03E83 /* + UIColor .swift in Sources */,
 				604C02A526A1DCC800B4D38B /* APIService.swift in Sources */,
 				60DDC8E926AC7E6F00BDCF1B /* Ticket.swift in Sources */,
@@ -548,6 +578,8 @@
 				605D8D3726B18FEC00C4F4F7 /* MapPresenter.swift in Sources */,
 				60DDC8E626AC7E5D00BDCF1B /* Airport.swift in Sources */,
 				605D8D4D26B569C700C4F4F7 /* TicketBuilder.swift in Sources */,
+				605391F726C549E900227CE3 /* UIHelper.swift in Sources */,
+				605391FE26C57BF900227CE3 /* + String.swift in Sources */,
 				60DDC8EC26AC7E7B00BDCF1B /* MapPrice.swift in Sources */,
 				60DDC94926B059B500BDCF1B /* CommonObj.swift in Sources */,
 				60FC800F26987D7F00E03E83 /* MapVC.swift in Sources */,

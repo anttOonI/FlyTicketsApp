@@ -11,7 +11,6 @@ final class DataService {
 	
 	// MARK: - Private Properties
 	
-	
 	private let typeOfFile = "json"
 	private let cityResource = "cities"
 	private let countryResource = "countries"
@@ -53,26 +52,11 @@ final class DataService {
 	// MARK: - Public Methods
 	
 	func loadData() {
-		getSource(forResource: cityResource, ofType: typeOfFile, withType: .DataSourceTypeCity)
-		getSource(forResource: countryResource, ofType: typeOfFile, withType: .DataSourceTypeCountry)
-		getSource(forResource: airportResource, ofType: typeOfFile, withType: .DataSourceTypeAirport)
-	}
-	
-	func getCityForIATA(iata: String?) -> City? {
-		if iata != nil {
-			for city in cities {
-				if city.code == iata {
-					return city
-				} else {
-					return nil
-				}
-			}
-		} else {
-			return nil
+		DispatchQueue.global(qos: .userInteractive).async {
+			
+			self.getSource(forResource: self.cityResource, ofType: self.typeOfFile, withType: .DataSourceTypeCity)
+			self.getSource(forResource: self.countryResource, ofType: self.typeOfFile, withType: .DataSourceTypeCountry)
+			self.getSource(forResource: self.airportResource, ofType: self.typeOfFile, withType: .DataSourceTypeAirport)
 		}
-		return nil
 	}
-	
-	
-	
 }

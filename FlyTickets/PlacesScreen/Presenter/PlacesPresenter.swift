@@ -30,7 +30,6 @@ class PlacesPresenter: PlacesViewPresenterProtocol {
 		self.findPresenter = findPresenter
 	}
 	
-	
 	func viewDidSelectSourceWith(selectedIndex: Int) {
 		setDataSourceWithSelectedSegment(selectedIndex: selectedIndex)
 	}

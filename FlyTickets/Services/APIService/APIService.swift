@@ -50,7 +50,9 @@ final class APIService {
 			switch response {
 			case .success(let result):
 				print(result)
-				completion(result.ip)
+				DispatchQueue.main.async {
+					completion(result.ip)
+				}
 			case .failure(let error):
 				print("in failure - \(error.localizedDescription)")
 			}
@@ -60,12 +62,14 @@ final class APIService {
 	// MARK: - Public Methods
 	
 	func getCityForCurrentIP(completion: @escaping (IPCity) -> ()) {
-		self.getIPAddressWithCompletion { (ipAdress) in
+		self.getIPAddressWithCompletion { ipAdress in
 			let fullUrl = APIConstants.apiUrlForCityFromIP + ipAdress
 			self.executeRequestForURL(urlString: fullUrl) { (result: Result<IPCity, Error>) in
 				switch result {
 				case .success(let city):
-					completion(city)
+					DispatchQueue.main.async {
+						completion(city)
+					}
 				case .failure(let error):
 					print(error)
 				}
@@ -84,7 +88,9 @@ final class APIService {
 		self.executeRequestForURL(urlString: url!) { (result: Result<TicketsResponse, Error>) in
 			switch result {
 			case .success(let ticket):
-				print(ticket)
+				DispatchQueue.main.async {
+					completion(ticket)
+				}
 			case .failure(let error):
 				print(error)
 			}

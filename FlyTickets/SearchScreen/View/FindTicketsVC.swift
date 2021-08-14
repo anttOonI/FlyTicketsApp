@@ -13,6 +13,7 @@ class FindTicketsVC: UIViewController {
 	
 	var presenter: FindTicketsPresenterProtocol!
 	var searchRequest: SearchRequest!
+	
 	// MARK: - Private Properties
 	
 	private var fromTextField = UITextField()
@@ -21,6 +22,7 @@ class FindTicketsVC: UIViewController {
 	private var activityIndicator = UIActivityIndicatorView()
 	
 	// MARK: - Lifecycle
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = UIColor.backgroundLightBlue

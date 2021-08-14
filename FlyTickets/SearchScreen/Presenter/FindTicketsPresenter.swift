@@ -44,15 +44,20 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 	}
 
 	func requestData() {
-		view?.showActivityIndicator(show: true)
+		
+		self.view?.showActivityIndicator(show: true)
+		
 		DataService.shared.loadData()
-		APIService.shared.getCityForCurrentIP { (city) in
-			DispatchQueue.main.async {
-				self.view?.setTitleForField(title: city.name, withType: PlaceType.PlaceTypeDeparture)
-				self.view?.showActivityIndicator(show: false)
-			}
+		print("⁉️⁉️⁉️⁉️⁉️⁉️⁉️\(DataService.shared.cities.count)")
+		APIService.shared.getCityForCurrentIP { [weak self] city in
+			guard let self = self else { return }
+
+			self.view?.setTitleForField(title: city.name, withType: PlaceType.PlaceTypeDeparture)
+			self.view?.showActivityIndicator(show: false)
 			self.searchRequest.origin = city.iata
+
 		}
+		print("⁉️⁉️⁉️⁉️⁉️⁉️⁉️\(DataService.shared.cities.count)")
 	}
 	func setPlace(withPlace place: Codable, withType placeType: PlaceType) {
 		var title = ""
@@ -84,12 +89,26 @@ class FindTicketsPresenter: FindTicketsPresenterProtocol {
 	}
 	
 	private func openTicketView() {
-		APIService.shared.getTicketsWithRequest(request: searchRequest) { (result) in
+		var tickets = [Ticket]()
+		APIService.shared.getTicketsWithRequest(request: searchRequest) { [weak self] result in
 			result.data.keys.forEach { key in
-				result.data[key]?.values.forEach({ value in
-					print(value)
-				})
+				if key.count > 0 {
+					result.data[key]?.values.forEach({ value in
+						tickets.append(value)
+						if let row = tickets.firstIndex(where: {$0.from == nil}) {
+							tickets[row].from = self!.searchRequest.origin
+						}
+						if let row = tickets.firstIndex(where: {$0.to == nil}) {
+							tickets[row].to = self!.searchRequest.destination
+						}
+					})
+				} else {
+					print("❌❌❌❌❌")
+				}
 			}
+			
+			let ticketsVC = TicketBuilder.createTicketScreen(with: tickets)
+			self?.view?.navigationController?.pushViewController(ticketsVC, animated: true)
 		}
 	}
 }
