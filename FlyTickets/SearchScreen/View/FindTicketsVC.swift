@@ -32,7 +32,6 @@ class FindTicketsVC: UIViewController {
 		presenter.requestData()
 	}
 	
-	
 	// MARK: - Private Methods
 	
 	private func configureNavigationBar() {
@@ -75,9 +74,8 @@ class FindTicketsVC: UIViewController {
 		
 		view.addSubview(goFindButton)
 		
-		activityIndicator.style = .large
-		activityIndicator.color = .red
-//		activityIndicator.center = fromTextField.bounds.origin
+		activityIndicator.style = .medium
+		activityIndicator.color = .gray
 		activityIndicator.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(activityIndicator)
 		
@@ -97,10 +95,9 @@ class FindTicketsVC: UIViewController {
 			goFindButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
 			goFindButton.topAnchor.constraint(equalTo: toTextField.bottomAnchor, constant: 30),
 			goFindButton.heightAnchor.constraint(equalToConstant: 50),
-			// TODO: поправить положение индикатора - чтобы был слева
+			
 			activityIndicator.centerYAnchor.constraint(equalTo: fromTextField.centerYAnchor),
-			activityIndicator.centerXAnchor.constraint(equalTo: fromTextField.centerXAnchor)
-		
+			activityIndicator.leadingAnchor.constraint(equalTo: fromTextField.leadingAnchor, constant: -(activityIndicator.bounds.width - 5))
 		])
 	}
 
@@ -112,7 +109,6 @@ class FindTicketsVC: UIViewController {
 	@objc private func searchButtonDidTapped() {
 		presenter.viewDidTapSearchButton()
 	}
-	
 }
 
 extension FindTicketsVC: FindTicketViewProtocol {
@@ -128,7 +124,11 @@ extension FindTicketsVC: FindTicketViewProtocol {
 		case .PlaceTypeArrival:
 			toTextField.text = title
 		}
-		
 	}
 	
+	func showAlert() {
+		let alertVC = UIAlertController(title: "Oops", message: "Sorry, we didn't find any tickets for your destination", preferredStyle: .alert)
+		alertVC.addAction(UIAlertAction(title: "Close", style: .default))
+		self.present(alertVC, animated: true)
+	}
 }

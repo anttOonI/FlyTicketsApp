@@ -37,6 +37,7 @@ class TicketVC: UIViewController {
 		collectionView.register(TicketViewCell.self, forCellWithReuseIdentifier: TicketViewCell.identifier)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.backgroundColor = .white
+		collectionView.alwaysBounceVertical = true
 	}
 	
 	private func setCollectionViewDelegates() {
@@ -53,7 +54,6 @@ extension TicketVC: UICollectionViewDelegate, UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TicketViewCell.identifier, for: indexPath) as! TicketViewCell
 		cell.dateLabel.text = tickets[indexPath.item].departureDate.convertDate()
-		// TODO: сюда передать откуда и куда - ИАТА коды
 		cell.placesLabel.text  = "\(tickets[indexPath.item].from!) - \(tickets[indexPath.item].to!)"
 		cell.priceLabel.text = "\(tickets[indexPath.item].price) руб."
 		ImageService.shared.getImageForAirline(iata: tickets[indexPath.item].airline) { image in
@@ -63,6 +63,11 @@ extension TicketVC: UICollectionViewDelegate, UICollectionViewDataSource {
 		return cell
 	}
 	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		print("CollectionView.contentSize \(collectionView.contentSize)")
+		print("CollectionView.collectionViewLayout.collectionViewContentSize \(collectionView.collectionViewLayout.collectionViewContentSize)")
+
+	}
 
 }
 

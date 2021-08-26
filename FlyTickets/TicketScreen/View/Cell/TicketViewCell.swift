@@ -61,14 +61,21 @@ class TicketViewCell: UICollectionViewCell {
 	
 	private func configureLayout() {
 		contentView.backgroundColor = .white
-		contentView.layer.shadowPath = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 10).cgPath
+		contentView.layer.cornerRadius = 10
 		contentView.layer.shadowColor = UIColor.black.cgColor
 		contentView.layer.shadowOffset = .zero
-		contentView.layer.shadowRadius = 1.0
+		contentView.layer.shadowRadius = 2.0
 		contentView.layer.shadowOpacity = 0.5
+		contentView.layer.shadowPath = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 10).cgPath
 		contentView.layer.masksToBounds = false
 		
-		contentView.layer.cornerRadius = 10
+//		contentView.layer.cornerRadius = 10
+//		contentView.clipsToBounds = true
+//
+//		layer.shadowColor = UIColor.black.cgColor
+//		layer.shadowRadius = 2.0
+//		layer.shadowOpacity = 0.5
+//		layer.shadowOffset = .zero
 		
 		priceLabel.translatesAutoresizingMaskIntoConstraints = false
 		self.contentView.addSubview(priceLabel)

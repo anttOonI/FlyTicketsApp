@@ -110,9 +110,7 @@ class PlacesVC: UIViewController {
 		presenter?.viewDidSelectSourceWith(selectedIndex: segmentedControl.selectedSegmentIndex)
 	}
 	
-	// MARK: - Public Methods
-	
-	@objc func placesDidChange(_ segmentedControl: UISegmentedControl) {
+	@objc private func placesDidChange(_ segmentedControl: UISegmentedControl) {
 		changeSource()
 	}
 }

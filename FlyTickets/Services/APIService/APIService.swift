@@ -17,48 +17,6 @@ final class APIService {
 	private init() {
 	}
 	
-	// MARK: - Private Methods
-	
-	private func executeRequestForURL<T: Decodable>(urlString: String, completion: @escaping (Result<T, Error>) -> ()) {
-		guard let url = URL(string: urlString) else { return }
-		let session = URLSession.shared
-		
-		session.dataTask(with: url) { data, response, error in
-			if let error = error {
-				completion(.failure(error))
-				return
-			}
-			
-			guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
-			
-			guard let data = data else { return }
-			
-			print(data)
-			do {
-				let decoder = JSONDecoder()
-				let result = try decoder.decode(T.self, from: data)
-				completion(.success(result))
-			} catch {
-				print(error.localizedDescription)
-				completion(.failure(error))
-			}
-		}.resume()
-	}
-	
-	private func getIPAddressWithCompletion(completion: @escaping (String) -> ()) {
-		executeRequestForURL(urlString: APIConstants.apiUrlForIPAdress) { (response: Result<IPAdress, Error>) in
-			switch response {
-			case .success(let result):
-				print(result)
-				DispatchQueue.main.async {
-					completion(result.ip)
-				}
-			case .failure(let error):
-				print("in failure - \(error.localizedDescription)")
-			}
-		}
-	}
-	
 	// MARK: - Public Methods
 	
 	func getCityForCurrentIP(completion: @escaping (IPCity) -> ()) {
@@ -95,5 +53,46 @@ final class APIService {
 				print(error)
 			}
 		}
+	}
+	
+	// MARK: - Private Methods
+	
+	private func getIPAddressWithCompletion(completion: @escaping (String) -> ()) {
+		executeRequestForURL(urlString: APIConstants.apiUrlForIPAdress) { (response: Result<IPAdress, Error>) in
+			switch response {
+			case .success(let result):
+				print(result)
+				DispatchQueue.main.async {
+					completion(result.ip)
+				}
+			case .failure(let error):
+				print("in failure - \(error.localizedDescription)")
+			}
+		}
+	}
+	
+	private func executeRequestForURL<T: Decodable>(urlString: String, completion: @escaping (Result<T, Error>) -> ()) {
+		guard let url = URL(string: urlString) else { return }
+		let session = URLSession.shared
+		
+		session.dataTask(with: url) { data, response, error in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			
+			guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
+			
+			guard let data = data else { return }
+			
+			do {
+				let decoder = JSONDecoder()
+				let result = try decoder.decode(T.self, from: data)
+				completion(.success(result))
+			} catch {
+				print(error.localizedDescription)
+				completion(.failure(error))
+			}
+		}.resume()
 	}
 }

@@ -16,6 +16,8 @@ final class DataService {
 	private let countryResource = "countries"
 	private let airportResource = "airports"
 	
+	private let parseGroup = DispatchGroup()
+	
 	// MARK: - Public Properties
 	
 	static let shared = DataService()
@@ -25,38 +27,40 @@ final class DataService {
 	var airports = [Airport]()
 	
 	// MARK: - Initializers
+	
 	private init() {
-	}
-	
-	// MARK: - Private Methods
-	
-	private func getSource(forResource resource: String, ofType type: String, withType sourceType: DataSourceType) {
-		guard let path = Bundle.main.path(forResource: resource, ofType: type) else { return }
-		let url = URL(fileURLWithPath: path)
-		do {
-			let data = try Data(contentsOf: url)
-			let decoder = JSONDecoder()
-			switch sourceType {
-			case .DataSourceTypeCountry:
-				countries = try decoder.decode([Country].self, from: data)
-			case .DataSourceTypeCity:
-				cities = try decoder.decode([City].self, from: data)
-			case .DataSourceTypeAirport:
-				airports = try decoder.decode([Airport].self, from: data)
-			}
-		} catch {
-			print("error \(error)")
-		}
 	}
 	
 	// MARK: - Public Methods
 	
 	func loadData() {
-		DispatchQueue.global(qos: .userInteractive).async {
-			
-			self.getSource(forResource: self.cityResource, ofType: self.typeOfFile, withType: .DataSourceTypeCity)
-			self.getSource(forResource: self.countryResource, ofType: self.typeOfFile, withType: .DataSourceTypeCountry)
-			self.getSource(forResource: self.airportResource, ofType: self.typeOfFile, withType: .DataSourceTypeAirport)
+		self.getSource(forResource: self.cityResource, ofType: self.typeOfFile, withType: .DataSourceTypeCity)
+		self.getSource(forResource: self.countryResource, ofType: self.typeOfFile, withType: .DataSourceTypeCountry)
+		self.getSource(forResource: self.airportResource, ofType: self.typeOfFile, withType: .DataSourceTypeAirport)
+		parseGroup.wait()
+	}
+	
+	// MARK: - Private Methods
+	
+	private func getSource(forResource resource: String, ofType type: String, withType sourceType: DataSourceType) {
+		DispatchQueue.global().async(group: parseGroup) {
+			guard let path = Bundle.main.path(forResource: resource, ofType: type) else { return }
+			let url = URL(fileURLWithPath: path)
+			do {
+				let data = try Data(contentsOf: url)
+				let decoder = JSONDecoder()
+				switch sourceType {
+				case .DataSourceTypeCountry:
+					self.countries = try decoder.decode([Country].self, from: data)
+				case .DataSourceTypeCity:
+					self.cities = try decoder.decode([City].self, from: data)
+				case .DataSourceTypeAirport:
+					self.airports = try decoder.decode([Airport].self, from: data)
+				}
+			} catch {
+				print("error \(error)")
+			}
 		}
 	}
+	
 }
